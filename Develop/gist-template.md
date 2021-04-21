@@ -66,7 +66,7 @@ Character Classes tells the regex engine to match only one out of multiple speci
 * \d matches a single character that is a digit
 * \w matches a word character (any alphanumeric character plus underscore)
 * \s matches a whitespace character (including tabs and line brakes)
-* . matches any character
+* .  matches any character
   
 The capital case for any aformentioned characters will inverse the match
 
@@ -76,7 +76,7 @@ The capital case for any aformentioned characters will inverse the match
 
 Square brackets are used to specify character classes (also known as character sets). For example:
 
-* The regular expression [Cc]at means: an uppercase C or lowercase c, followed by the letter a, followed by the letter t.
+* The regular expression '[Cc]at' means: an uppercase C or lowercase c, followed by the letter a, followed by the letter t.
   '[Cc]at' --> The big 'Cat' sat next to the small 'cat'.
 
 
@@ -96,10 +96,39 @@ So by using these Flags:
 
 
 ### Grouping and Capturing
+A capturing group is a group of subpatterns that is written inside parentheses (...). In regular expressions, if a quantifier is after a character then it will repeat the preceding character. But if a quantifier is after a capturing group then it repeats the whole capturing group. For example: '(ca)*' matches zero or more repetitions of the character "ca". We can also use the alternation | meta character inside a capturing group. Such as: '(c|a|t)ne' means: a lowercase c, a or t, followed by n, followed by r.
+
+'(c|a|t)ne' --> The 'cat' sat 'ne'xt to the window.
+
+Other examples of Grouping:
+* ()     parentheses creates a capture group
+* (?:)   using `?:` disables the capturing group
+* (?<>)  using `?<>` puts a name to the group
+
 
 ### Bracket Expressions
+Bracket Expressions are characters enclosed by a bracket `[]` matching any single character within the brackets. 
+
+Examples of Bracket Expressions: 
+* []   matching any single character within the brackets
+* []%  matching the string inside the brackets before the `%`
+* [^]  matching any string that has not a letter from within the brackets (negation of expression)
+
+So by using these Bracket Expressions:
+
+[abc]         matches a string that etiher has 'a' or 'b c' or 'a c' (same as a|b|c)
+[u-zU-Z0-9]   a string that represents a single hexadecimal digit, case insensitively
+[^a-zA-Z]     a string that has not a letter from a to z or from A to Z
+[0-9]%        a string that has a character from 0-9 before a %
 
 ### Greedy and Lazy Match
+Normally a regex will perform a greedy match, the match will be as long as possible. We can use '?' to match in a lazy way, so the match will be as short as possible.
+
+'/(.*at)/' --> 'The cat sat by the window'
+
+Using '?' to match the lazy Way:
+
+'/(.*?at)/' --> 'The cat' sat by the window
 
 ### Boundaries
 
