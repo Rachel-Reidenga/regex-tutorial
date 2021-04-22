@@ -4,7 +4,9 @@ Regex or Regular Expression is defined as a sequence of characters that specifie
 
 ## Summary
 
-In this tutorial we will be covering the Components of Regex. At first Regex might look confusing and may sound a little intimidating, but once gaining a basic understanding of the Regex syntax it becomes a very useful tool for most programming languages. By the end of this tutorial we'll be able to identify the different components that make up a regex and break down a (BLANK----) regular expression.
+In this tutorial we will be covering the Components of Regex. At first Regex might look confusing and may sound a little intimidating, but once gaining a basic understanding of the Regex syntax it becomes a very useful tool for most programming languages. By the end of this tutorial we'll be able to identify the different components that make up a regex and break down a URL regular expression.
+
+/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
 
 ## Table of Contents
 
@@ -28,14 +30,16 @@ In this tutorial we will be covering the Components of Regex. At first Regex mig
 ## Regex Components
 
 ### Anchors
-Anchors belong to the family of regex tokens that don't match any characters, but that assert something about the string or the matching process. Anchors assert that the engine's current position in the string matches a well-determined location: for instance, the beginning of the string, or the end of a line.
+Anchors belong to the family of regex tokens that don't match any characters, but that assert something about the string or the matching process; the beginning of the string, or the end of a line.
 
 ^ marks the beginning of a string
 $ marks the end of a string
 \A marks the beginning of string
 \z marks the end of string
 
-The caret anchor ^ asserts that the engine's current position in the string is the beginning of the string. Therefore, ^r matches a r at the beginning of the string.
+/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
+
+The caret anchor ^ asserts that the engine's current position in the string is the beginning of the string so by looking at our URL we can see that ^ marks the beginning and $ marks the end.
 
 ### Quantifiers
 Qunatifiers are characters within the regular expression that specify how many instances a character, group, or character class must be represented in the input to be matched. Any regular expression element can be qualified by one of the following three characters: *, +, or ?.
@@ -49,6 +53,17 @@ cat_[a-z9-0]+ dose NOT match cat_ because it is NOT followed by any alphanumeric
 
 * The Qualifying Character ? matches 0 or 1 occurrences of the element it follows. An example is:
 cat_[a-z0-9]? matches: cat_0 , cat_ , cat_a , cat_ zz because cat_ is followed by 0 or 1 alphanumeric values.
+
+Within our URL: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/ we can see (https?:\/\/)? AND *\/?$/
+
+The first ? makes the 's' in 'https' optional that way it works with links that start with both http:// and https://
+The ? before the last '/' makes the '/' optional as well
+
+([\/\w \.-]*)*\/?$/ In this section of the Regex * is marking that the last grouping can occur any number of times and be repeated.
+
+The last quantifier {2,6} simply says that there can only be 2 to 6 characters in this part of the URL. This is typlical because the country code of the URL is usualy only 2 to 6 characters long: .com, .edu, .dk, .cn
+
+
 
 ### OR Operator
 OR Operators (Alternation Operator) matches on of a choice of regular expressions: if you put the character(s) representing the alternation operator between any two characters in the regular expression, the result matches the union of the strings that those two characters match. Okay, that was kind of a lot so lets break it down.
@@ -73,6 +88,12 @@ The capital case for any aformentioned characters will inverse the match
 * \D matches a single non-digit character
 * \W matches a single any non-character that is a-z
 * \S matches a single non-whitespace character
+
+In our expression /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/ there are a '\d' and a '\w'
+
+[\da-z\.-] The \d matching any single character that is a digit will be looking for the domain name and will be searching for any letter a through z and any '.' or '-'
+
+[\/\w \.-] This last part would identify any words or directories that are written past the domain. 
 
 Square brackets are used to specify character classes (also known as character sets). For example:
 
@@ -105,6 +126,15 @@ Other examples of Grouping:
 * (?:)   using `?:` disables the capturing group
 * (?<>)  using `?<>` puts a name to the group
 
+The URL expression /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/ is actualy made up of 4 groups:
+
+/^(https?:\/\/)?  and  ([\da-z\.-]+)\.  and  ([a-z\.]{2,6})  and  ([\/\w \.-]*)*\/?$/
+
+The first chunck is the http/https option.
+The second group is what looks for any identifying domain names and characters.
+The third group, usually followed by a '.' is basicaly the '.com' section 2 to 6 characters in length.
+The last chunck is the filepath and can be repeated and be any word.
+
 
 ### Bracket Expressions
 Bracket Expressions are characters enclosed by a bracket `[]` matching any single character within the brackets. 
@@ -120,6 +150,13 @@ So by using these Bracket Expressions:
 [u-zU-Z0-9]   a string that represents a single hexadecimal digit, case insensitively
 [^a-zA-Z]     a string that has not a letter from a to z or from A to Z
 [0-9]%        a string that has a character from 0-9 before a %
+
+The bracket seoressions in our URL are: 
+
+[\da-z\.-]  and  ([a-z\.]{2,6}  and  [\/\w \.-]
+
+Bracket one is looking for any character a through z, any diget, '.' and/or '-'
+
 
 ### Greedy and Lazy Match
 Normally a regex will perform a greedy match, the match will be as long as possible. We can use '?' to match in a lazy way, so the match will be as short as possible.
