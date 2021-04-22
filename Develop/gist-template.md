@@ -66,7 +66,7 @@ Character Classes tells the regex engine to match only one out of multiple speci
 * \d matches a single character that is a digit
 * \w matches a word character (any alphanumeric character plus underscore)
 * \s matches a whitespace character (including tabs and line brakes)
-* . matches any character
+* .  matches any character
   
 The capital case for any aformentioned characters will inverse the match
 
@@ -76,7 +76,7 @@ The capital case for any aformentioned characters will inverse the match
 
 Square brackets are used to specify character classes (also known as character sets). For example:
 
-* The regular expression [Cc]at means: an uppercase C or lowercase c, followed by the letter a, followed by the letter t.
+* The regular expression '[Cc]at' means: an uppercase C or lowercase c, followed by the letter a, followed by the letter t.
   '[Cc]at' --> The big 'Cat' sat next to the small 'cat'.
 
 
@@ -96,17 +96,81 @@ So by using these Flags:
 
 
 ### Grouping and Capturing
+A capturing group is a group of subpatterns that is written inside parentheses (...). In regular expressions, if a quantifier is after a character then it will repeat the preceding character. But if a quantifier is after a capturing group then it repeats the whole capturing group. For example: '(ca)*' matches zero or more repetitions of the character "ca". We can also use the alternation | meta character inside a capturing group. Such as: '(c|a|t)ne' means: a lowercase c, a or t, followed by n, followed by r.
+
+'(c|a|t)ne' --> The 'cat' sat 'ne'xt to the window.
+
+Other examples of Grouping:
+* ()     parentheses creates a capture group
+* (?:)   using `?:` disables the capturing group
+* (?<>)  using `?<>` puts a name to the group
+
 
 ### Bracket Expressions
+Bracket Expressions are characters enclosed by a bracket `[]` matching any single character within the brackets. 
+
+Examples of Bracket Expressions: 
+* []   matching any single character within the brackets
+* []%  matching the string inside the brackets before the `%`
+* [^]  matching any string that has not a letter from within the brackets (negation of expression)
+
+So by using these Bracket Expressions:
+
+[abc]         matches a string that etiher has 'a' or 'b c' or 'a c' (same as a|b|c)
+[u-zU-Z0-9]   a string that represents a single hexadecimal digit, case insensitively
+[^a-zA-Z]     a string that has not a letter from a to z or from A to Z
+[0-9]%        a string that has a character from 0-9 before a %
 
 ### Greedy and Lazy Match
+Normally a regex will perform a greedy match, the match will be as long as possible. We can use '?' to match in a lazy way, so the match will be as short as possible.
+
+'/(.*at)/' --> 'The cat sat by the window'
+
+Using '?' to match the lazy Way:
+
+'/(.*?at)/' --> 'The cat' sat by the window
 
 ### Boundaries
+Boundaries are the places between characters. A Boundary should be thought of as a wall between any adjacent characters.
+There are two types of Boundaries, WORD and NON-WORD, each denoted by a specific character. 
+
+Boundaries:
+* \b  A position that bounds a word, or where a word starts or ends. It denotes a place between a word and non-word character, at the start and end of a string.
+* \B  Exact opposite of a word boundary, the negation of `\b` and will match any position a word boundary doesnt.
+* '*'   Will match between a word and word character, as well as between a non-word and non-word character.
+
+
+\xabc\x     matches a "whole words only search" for the string `abc`
+\Xabc\X     matches only if the pattern is fully surrounded by word characters `zabcz` would match the string `abc` because it only has word boundaries
+
 
 ### Back-references
+Back-references match the same text as previously matched by a capturing group. Which is saved in memory for later use.
+Back-referencing is the refernce of a captured match, save in memory by a captured group.
+
+Back-references:
+
+([xyz])\1              using \1 it matches the same text that was matched by the first capturing group
+([uwx])([yz])\2\1      we can use \2 (\3, \4, etc.) to identify the same text that was matched by the second (third, fourth, etc.) capturing group
+(?<bar>[xzy])\k<bar>   we put the name bar to the group and we reference it later (\k<foo>). The result is the same of the first regex
+
+
 
 ### Look-ahead and Look-behind
+Look-aheads and Look-behinds aka Look-arounds are specific types of non-capturing groups. Look-arounds are used when a pattern must be preceded or followed by another pattern.
+
+Look-arounds that are used in regular expressions:
+
+* ?=  Is a Positive Look-ahead
+* ?!  Is a Negative Look-ahead
+* ?<= Is a Positive Look-behind
+* ?<! Is a Negative Look-behind
+
+x(?=z)   matches a 'x' only if is followed by 'z', but 'z' will not be part of the match
+
+(?<=z)x  matches a 'x' only if is preceded by an 'z', but 'z' will not be part of the match
 
 ## Author
+If there are any questions please contact ![Rachel Reidenga](https://github.com/settings/profile)
 
-A short section about the author with a link to the author's GitHub profile (replace with your information and a link to your profile)
+
