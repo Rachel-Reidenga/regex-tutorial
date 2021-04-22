@@ -131,11 +131,46 @@ Using '?' to match the lazy Way:
 '/(.*?at)/' --> 'The cat' sat by the window
 
 ### Boundaries
+Boundaries are the places between characters. A Boundary should be thought of as a wall between any adjacent characters.
+There are two types of Boundaries, WORD and NON-WORD, each denoted by a specific character. 
+
+Boundaries:
+* \b  A position that bounds a word, or where a word starts or ends. It denotes a place between a word and non-word character, at the start and end of a string.
+* \B  Exact opposite of a word boundary, the negation of `\b` and will match any position a word boundary doesnt.
+* '*'   Will match between a word and word character, as well as between a non-word and non-word character.
+
+
+\xabc\x     matches a "whole words only search" for the string `abc`
+\Xabc\X     matches only if the pattern is fully surrounded by word characters `zabcz` would match the string `abc` because it only has word boundaries
+
 
 ### Back-references
+Back-references match the same text as previously matched by a capturing group. Which is saved in memory for later use.
+Back-referencing is the refernce of a captured match, save in memory by a captured group.
+
+Back-references:
+
+([xyz])\1              using \1 it matches the same text that was matched by the first capturing group
+([uwx])([yz])\2\1      we can use \2 (\3, \4, etc.) to identify the same text that was matched by the second (third, fourth, etc.) capturing group
+(?<bar>[xzy])\k<bar>   we put the name bar to the group and we reference it later (\k<foo>). The result is the same of the first regex
+
+
 
 ### Look-ahead and Look-behind
+Look-aheads and Look-behinds aka Look-arounds are specific types of non-capturing groups. Look-arounds are used when a pattern must be preceded or followed by another pattern.
+
+Look-arounds that are used in regular expressions:
+
+* ?=  Is a Positive Look-ahead
+* ?!  Is a Negative Look-ahead
+* ?<= Is a Positive Look-behind
+* ?<! Is a Negative Look-behind
+
+x(?=z)   matches a 'x' only if is followed by 'z', but 'z' will not be part of the match
+
+(?<=z)x  matches a 'x' only if is preceded by an 'z', but 'z' will not be part of the match
 
 ## Author
+If there are any questions please contact ![Rachel Reidenga](https://github.com/settings/profile)
 
-A short section about the author with a link to the author's GitHub profile (replace with your information and a link to your profile)
+
